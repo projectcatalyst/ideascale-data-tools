@@ -1,0 +1,103 @@
+service: ideascale-api-wrapper
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+  stage: ${opt:stage, 'dev'}
+  environment:
+    IDEASCALE_API_TOKEN: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):IDEASCALE_API_TOKEN}
+
+functions:
+  campaigns:
+    handler: handler.campaigns
+    events:
+      - http:
+          path: /campaigns
+          method: get
+
+  campaignsArchived:
+    handler: handler.campaignsArchived
+    events:
+      - http:
+          path: /campaigns/archived
+          method: get
+
+  campaignsFields:
+    handler: handler.campaignsFields
+    events:
+      - http:
+          path: /campaigns/{campaignId}/fields
+          method: get
+
+  campaignsIdeas:
+    handler: handler.campaignsIdeas
+    events:
+      - http:
+          path: /campaigns/{campaignId}/ideas
+          method: get
+
+  campaignIdeaSubmissionConfig:
+    handler: handler.campaignIdeaSubmissionConfig
+    events:
+      - http:
+          path: /campaign/{campaignId}/ideaSubmissionConfig
+          method: get
+
+  customFieldsIdeaCampaigns:
+    handler: handler.customFieldsIdeaCampaigns
+    events:
+      - http:
+          path: /customFields/idea/campaigns/{campaignId}
+          method: get
+
+  commentsAll:
+    handler: handler.commentsAll
+    events:
+      - http:
+          path: /comments/all/{pageNumber}/{pageSize}
+          method: get
+
+  members:
+    handler: handler.members
+    events:
+      - http:
+          path: /members/{pageNumber}/{pageSize}
+          method: get
+
+  customFieldsMember:
+    handler: handler.customFieldsMember
+    events:
+      - http:
+          path: /customFields/member
+          method: get
+
+  memberFields:
+    handler: handler.memberFields
+    events:
+      - http:
+          path: /members/fields
+          method: get
+
+  ideas:
+    handler: handler.ideas
+    events:
+      - http:
+          path: /ideas/{pageNumber}/{pageSize}
+          method: get
+          
+  stages:
+    handler: handler.stages
+    events:
+      - http:
+          path: /stages
+          method: get
+
+  tagsCounts:
+    handler: handler.tagsCounts
+    events:
+      - http:
+          path: /tags/counts
+          method: get
