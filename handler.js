@@ -43,7 +43,20 @@ module.exports.campaignsFields = async (event) => {
 module.exports.campaignsIdeas = async (event) => {
   const campaignId = event.pathParameters.campaignId
   const response = await apiHandler(`/v1/campaigns/${campaignId}/ideas`)
-  return formatResponse({ data: response })
+
+  const sanitisedResponse = response
+    ? response.map(camapign => ({
+        ...camapign,
+        authorInfo: {
+          ...camapign.authorInfo,
+          email: null,
+          emailHash: null
+        }
+      })
+    )
+    : []
+
+  return formatResponse({ data: sanitisedResponse })
 }
 
 module.exports.campaignIdeaSubmissionConfig = async (event) => {
@@ -62,14 +75,37 @@ module.exports.commentsAll = async (event) => {
   const pageNumber = event.pathParameters.pageNumber
   const pageSize = event.pathParameters.pageSize
   const response = await apiHandler(`/v1/comments/all/${pageNumber}/${pageSize}`)
-  return formatResponse({ data: response })
+
+  const sanitisedResponse = response
+    ? response.map(comment => ({
+        ...comment,
+        authorInfo: {
+          ...comment.authorInfo,
+          email: null,
+          emailHash: null
+        }
+      })
+    )
+    : []
+
+  return formatResponse({ data: sanitisedResponse })
 }
 
 module.exports.members = async (event) => {
   const pageNumber = event.pathParameters.pageNumber
   const pageSize = event.pathParameters.pageSize
   const response = await apiHandler(`/v1/members/${pageNumber}/${pageSize}`)
-  return formatResponse({ data: response })
+
+  const sanitisedResponse = response
+    ? response.map(member => ({
+        ...member,
+        email: null,
+        emailHash: null
+      })
+    )
+    : []
+
+  return formatResponse({ data: sanitisedResponse })
 }
 
 module.exports.customFieldsMember = async () => {
@@ -86,7 +122,20 @@ module.exports.ideas = async (event) => {
   const pageNumber = event.pathParameters.pageNumber
   const pageSize = event.pathParameters.pageSize
   const response = await apiHandler(`/v1/ideas/${pageNumber}/${pageSize}`)
-  return formatResponse({ data: response })
+
+  const sanitisedResponse = response
+    ? response.map(idea => ({
+        ...idea,
+        authorInfo: {
+          ...idea.authorInfo,
+          email: null,
+          emailHash: null
+        }
+      })
+    )
+    : []
+
+  return formatResponse({ data: sanitisedResponse })
 }
 
 module.exports.stages = async () => {
