@@ -1,18 +1,6 @@
 'use strict'
 
-const fetch = require('node-fetch')
-
-const ideascaleApiToken = process.env.IDEASCALE_API_TOKEN
-
-async function apiHandler(path) {
-  return fetch(`https://ideascale.com/a/rest${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'api_token': ideascaleApiToken
-    }
-  })
-    .then(res => res.json())
-}
+const apiHandler = require('./utils/api-handler')
 
 async function formatResponse(body) {
   return {

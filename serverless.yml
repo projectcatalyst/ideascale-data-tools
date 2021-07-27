@@ -7,8 +7,6 @@ provider:
   runtime: nodejs12.x
   region: eu-west-2
   stage: ${opt:stage, 'dev'}
-  environment:
-    IDEASCALE_API_TOKEN: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):IDEASCALE_API_TOKEN}
 
 functions:
   campaigns:
